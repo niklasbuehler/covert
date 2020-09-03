@@ -1,0 +1,30 @@
+#logo {
+		width: 64px;
+		height: 64px;
+}
+#selection {
+		width: 100%;
+}
+.imagebutton {
+		width: 25%;
+		position: relative;
+		height: 0;
+		padding-bottom: 25%;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+}
+#content {
+		width: 100%;
+}
+.cover {
+		width: 200px;
+		height: 200px;
+		object-fit: cover;
+}
+.highlight {
+		color: #1DB954;
+}
+.bg-dark {
+		background-color: #070739!important;
+}

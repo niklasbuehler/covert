@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Create posters from your favorite album covers.">
+  <meta name="author" content="Niklas Bühler">
+
+  <title>Covert - Create posters from your favorite album covers.</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Justified CSS -->
+  <link rel="stylesheet" href="vendor/justified/jquery.justified.css">
+  
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Custom stylesheet -->
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body onload="populateView()">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand highlight" href="#"><img src="img/logo-transparent.png" id="logo">overt</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+		  <li class="nav-item dropdown toolbar">
+		    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      Content
+		    </a>
+		    <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="type-picker">
+		      <a class="dropdown-item" href="#" onclick="itemtype='tracks'; toolbarUpdate()">Top Tracks</a>
+		      <a class="dropdown-item" href="#" onclick="itemtype='artists'; toolbarUpdate()">Top Artists</a>
+		      <a class="dropdown-item" href="#" onclick="itemtype='saved-tracks'; toolbarUpdate()">Tracks</a>
+		      <a class="dropdown-item" href="#" onclick="itemtype='saved-albums'; toolbarUpdate()">Albums</a>
+		      <div class="dropdown-divider"></div>
+		    </div>
+		  </li>
+		  <li class="nav-item dropdown toolbar">
+		    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      Count
+		    </a>
+		    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		      <a class="dropdown-item" href="#" onclick="size=1; toolbarUpdate()">Tiny</a>
+		      <a class="dropdown-item" href="#" onclick="size=2; toolbarUpdate()">Small</a>
+		      <a class="dropdown-item" href="#" onclick="size=3; toolbarUpdate()">Medium</a>
+		      <a class="dropdown-item" href="#" onclick="size=4; toolbarUpdate()">Large</a>
+		      <a class="dropdown-item" href="#" onclick="size=5; toolbarUpdate()">Huge</a>
+		    </div>
+		  </li>
+		  <li class="nav-item dropdown toolbar">
+		    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      Size
+		    </a>
+		    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		      <a class="dropdown-item" href="#" onclick="coversize=50; toolbarUpdate()">Tiny</a>
+		      <a class="dropdown-item" href="#" onclick="coversize=100; toolbarUpdate()">Small</a>
+		      <a class="dropdown-item" href="#" onclick="coversize=200; toolbarUpdate()">Medium</a>
+		      <a class="dropdown-item" href="#" onclick="coversize=400; toolbarUpdate()">Large</a>
+		    </div>
+		  </li>
+		  <li class="nav-item dropdown toolbar">
+		    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      Filter
+		    </a>
+		    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		      <a class="dropdown-item" href="#" onclick="show_unique=true; toolbarUpdate()">Unique only</a>
+		      <a class="dropdown-item" href="#" onclick="show_unique=false; toolbarUpdate()">Don't filter</a>
+		    </div>
+		  </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="shuffleImgs()">Shuffle</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="authbutton" onclick="authorize()">Sign in/out</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container" id="content">
+	  <div class="row">
+		  <div class="col-lg-12 text-center">
+			<h1 class="mt-5" id="title">Covert</h1>
+			<p class="lead">Create posters from your favorite album covers.</p>
+			<div class="alert alert-primary" role="alert" id="alert">
+					Hey there! In order to create a preview of your custom poster, you'll have to <a href="#" onclick="authorize()">sign in with your Spotify account</a>.
+			</div>
+		  </div>
+		  <div class="alert alert-primary" role="alert" style="width: 100%; text-align: center;" id="loading">
+			<div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"><span class="sr-only">Loading...</span></div>
+		  </div>
+      </div>
+	  <div class="row" id="selection">
+			  <a class="imagebutton" style="background-image: url('img/top-tracks.png')" href="#" onclick="itemtype='tracks'; toolbarUpdate()"></a>
+			  <a class="imagebutton" style="background-image: url('img/top-artists.png')" href="#" onclick="itemtype='artists'; toolbarUpdate()"></a>
+			  <a class="imagebutton" style="background-image: url('img/tracks.png')" href="#" onclick="itemtype='saved-tracks'; toolbarUpdate()"></a>
+			  <a class="imagebutton" style="background-image: url('img/albums.png')" href="#" onclick="itemtype='saved-albums'; toolbarUpdate()"></a>
+	  </div>
+	  <div class="row" id="collage">
+	  </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/justified/jquery.justified.min.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+
+</html>
