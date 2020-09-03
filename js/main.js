@@ -53,6 +53,11 @@ function toolbarUpdate() {
 		repopulateView();
 }
 
+function shuffleImgs() {
+		imgs.sort(() => Math.random() - 0.5);
+		showCollage();
+}
+
 function getAccessToken() {
 		access_token = sessionStorage.getItem("accessToken");
 		if (access_token !== null) {
